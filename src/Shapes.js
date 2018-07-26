@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import './Shapes.css'
 
-export default class Shapes extends Component {
+class Shapes extends Component {
   constructor () {
     super()
     this.countIncrementer = this.countIncrementer.bind(this)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    console.log('nextprops', nextProps)
   }
 
   countIncrementer () {
@@ -63,3 +60,7 @@ export default class Shapes extends Component {
     )
   }
 }
+
+export default connect(dispatch => {
+  return {dispatch}
+})(Shapes)

@@ -23,7 +23,7 @@ class SecondComp extends Component {
     return (
       <div>
         {this.state.shape.map((post, i) => {
-          return <Shapes post={post} dispatch={this.props.dispatch} />
+          return <Shapes post={post} />
         })}
       </div>
     )
@@ -38,10 +38,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SecondComp)
+export default connect(mapStateToProps)(SecondComp)
