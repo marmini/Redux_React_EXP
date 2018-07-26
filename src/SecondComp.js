@@ -1,35 +1,37 @@
-import React, {Component} from 'react';
-import Shapes from './Shapes.js';
+import React, { Component } from 'react';
 
-export default class SecondComp extends Component{
+import Shapes from './Shapes';
+import { connect } from 'react-redux';
 
+class SecondComp extends Component {
     constructor(props){
         super(props)
-        this.state = {
-           list : this.props.listToRender,
+        this.state={
+            shape: []
         }
-        this.clickedShapeCol = this.clickedShapeCol.bind(this);
+
+    }
+    
+    componentWillReceiveProps(nextProps){
+        this.setState({shape:nextProps.posts})
+        console.log(nextProps);
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.state.list = nextProps.listToRender
-    }
-
-    clickedShapeCol(state){
-     this.props.clickedShapeColor(state)
-    }
-
-    render(){
-        return(
+    render() {
+        console.log("In Second props===",this.props.posts);
+        return (
             <div>
-              {this.state.list.map((list, index) => (
-              <Shapes shape={list.selectedShape} color={list.selectedColor} count={list.selectedCount} clickedShapeCol={this.clickedShapeCol}/>
-             ))}
+                 {this.state.shape.map((post) => <Shapes  post={post} />)}
             </div>
-        )
+        );
     }
-
-
-
-
 }
+
+const mapStateToProps = (state) => {
+    console.log("inside state to props",state);
+    
+    return {
+        posts: state.postReducer
+    }
+}
+export default connect(mapStateToProps)(SecondComp);

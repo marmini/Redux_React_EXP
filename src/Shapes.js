@@ -1,60 +1,68 @@
-import React,{Component} from 'react'; 
+import React, { Component } from 'react';
 import './Shapes.css';
+import { connect } from 'react-redux';
 
-export default class Shapes extends Component{
+class Shapes extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state={
-           shape : this.props.shape,
-           color : this.props.color,
-           count : this.props.count,
-        }
-      this.countIncrementer = this.countIncrementer.bind(this)
-      }
-
-    countIncrementer(){
-     this.props.clickedShapeCol(this.state)
-    }
-
-    componentWillReceiveProps(nextProps) {
-      this.state.shape = nextProps.shape
-      this.state.color = nextProps.color
-      this.state.count = nextProps.count
+  constructor() {
+    super()
+    this.countIncrementer = this.countIncrementer.bind(this)
   }
 
 
-       render(){
-            return (
-                    <div>
-                    {(() => {
-                      switch (this.state.shape) {
-                        case "square":  return (
-                            <div>
-                            <div className='square-css' style={{ backgroundColor: this.state.color}}
-                               onClick={this.countIncrementer}>{this.state.count}</div>    
-                                             
-                            </div>
-                          );
-                          case "circle": return (
-                            <div >
-                            <div className='circle-css' style={{ backgroundColor: this.state.color}}
-                             onClick={this.countIncrementer}>{this.state.count}</div>
-                             
-                            </div>
-                          );
-                          case "rectangle":return (
-                            <div>
-                            <div className='rectangle-css' style={{ backgroundColor: this.state.color}}
-                             onClick={this.countIncrementer}>{this.state.count}</div>
-                              
-                            </div>
-                          );                        
-                      }
-                    })()} 
-                  </div>
-                    
-                     
-              );    
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+  }
+
+  countIncrementer() {
+    const shape = this.props.post.shape;
+    const color = this.props.post.color;
+    const count = this.props.post.count;
+    const data = {
+      shape,
+      color,
+      count,
     }
+
+    this.props.dispatch({
+      type: 'COUNT_INC',
+      data
+    });
+  }
+
+
+  render() {
+    return (
+      <div>
+        <div>
+          {(() => {
+            switch (this.props.post.shape) {
+              case "square": return (
+                <div className='col-sm-4'>
+                  <div className='square-css' style={{ backgroundColor: this.props.post.color }}
+                    onClick={this.countIncrementer}>{this.props.post.count}</div>
+
+                </div>
+              );
+              case "circle": return (
+                <div className='col-sm-4'>
+                  <div className='circle-css' style={{ backgroundColor: this.props.post.color, textAlign: 'center' }}
+                    onClick={this.countIncrementer}>{this.props.post.count}</div>
+
+                </div>
+              );
+              case "rectangle": return (
+                <div className='col-sm-4'>
+                  <div className='rectangle-css' style={{ backgroundColor: this.props.post.color, textAlign: 'center' }}
+                    onClick={this.countIncrementer}>{this.props.post.count}</div>
+
+                </div>
+              );
+            }
+          })()}
+        </div>
+      </div>
+    );
+  }
 }
+export default connect()(Shapes);
